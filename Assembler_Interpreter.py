@@ -76,3 +76,65 @@ def assembler_interpreter(program):
                 continue
         i += 1
     return -1
+
+program_fibonacci = '''
+mov   a, 8            ; value
+mov   b, 0            ; next
+mov   c, 0            ; counter
+mov   d, 0            ; first
+mov   e, 1            ; second
+call  proc_fib
+call  print
+end
+
+proc_fib:
+    cmp   c, 2
+    jl    func_0
+    mov   b, d
+    add   b, e
+    mov   d, e
+    mov   e, b
+    inc   c
+    cmp   c, a
+    jle   proc_fib
+    ret
+
+func_0:
+    mov   b, c
+    inc   c
+    jmp   proc_fib
+
+print:
+    msg   'Term ', a, ' of Fibonacci series is: ', b        ; output text
+    ret
+'''
+
+program_power = '''
+mov   a, 2            ; value1
+mov   b, 10           ; value2
+mov   c, a            ; temp1
+mov   d, b            ; temp2
+call  proc_func
+call  print
+end
+
+proc_func:
+    cmp   d, 1
+    je    continue
+    mul   c, a
+    dec   d
+    call  proc_func
+
+continue:
+    ret
+
+print:
+    msg a, '^', b, ' = ', c
+    ret
+'''
+
+# Print should equal 'Term 8 of Fibonacci series is: 21'
+print(assembler_interpreter(program_fibonacci))
+
+# Print should equal '2^10 = 1024'
+print(assembler_interpreter(program_power))
